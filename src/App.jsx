@@ -1,71 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const App = () => {
-  let [formData, setFormData] = useState({
-    fName: "",
-    lName: "",
-    email: "",
-    fruit: "",
-    state: false,
-  });
+  let [data, setData] = useState(null);
+  let [loading, setLoading] = useState(true);
+  let [error, setError] = useState(null);
 
-  let InputChange = (prop, val) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [prop]: val,
-    }));
-  };
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch("https://dummyjson.com/products");
+        const data = await res.json(); // Await the JSON response
+        setData(data);
+        setLoading(false);
+      } catch (err) {
+        setError(err);
+        setLoading(false);
+      }
+    })();
+  }, []); // Add an empty dependency array to only run once when the component mounts
 
-  let formSubmit = (e) => {
-    e.preventDefault();
-  };
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
   return (
     <div style={{ maxWidth: "500px", margin: "100px auto" }}>
-      <pre>{JSON.stringify(formData, null, 2)}</pre>
-      <form onSubmit={formSubmit}>
-        <input
-          onChange={(e) => InputChange("fName", e.target.value)}
-          type="text"
-          placeholder="first name"
-          value={formData.fName}
-        />
-        <input
-          onChange={(e) => InputChange("lName", e.target.value)}
-          type="text"
-          placeholder="last name"
-          value={formData.lName}
-        />
-        <input
-          onChange={(e) => InputChange("email", e.target.value)}
-          type="email"
-          placeholder="email"
-          value={formData.email}
-        />
-        <select onChange={(e) => InputChange("fruit", e.target.value)} value={formData.fruit}>
-          <option value="">Choose</option>
-          <option value="apple">Apple</option>
-          <option value="banana">Banana</option>
-          <option value="Pine Apple">Pine Apple</option>
-        </select>
-        <input
-          onChange={() => InputChange("state", true)}
-          checked={formData.state === true}
-          type="radio"
-          name="state"
-        />{" "}
-        ON
-        <input
-          onChange={() => InputChange("state", false)}
-          checked={formData.state === false}
-          type="radio"
-          name="state"
-        />{" "}
-        OFF
-        <br />
-        <br />
-        <button type="submit">Submit Form</button>
-      </form>
+      <p>{JSON.stringify(data)}</p>
     </div>
   );
 };
