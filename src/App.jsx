@@ -1,30 +1,18 @@
-import { useState, useEffect } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import Contact from "./pages/Contact";
+import About from "./pages/About";
 
 const App = () => {
-  let [data, setData] = useState(null);
-  let [loading, setLoading] = useState(true);
-  let [error, setError] = useState(null);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await fetch("https://dummyjson.com/products");
-        const data = await res.json(); // Await the JSON response
-        setData(data);
-        setLoading(false);
-      } catch (err) {
-        setError(err);
-        setLoading(false);
-      }
-    })();
-  }, []); // Add an empty dependency array to only run once when the component mounts
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
-
   return (
     <div style={{ maxWidth: "500px", margin: "100px auto" }}>
-      <p>{JSON.stringify(data)}</p>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 };
