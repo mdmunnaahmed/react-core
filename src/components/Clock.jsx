@@ -25,7 +25,7 @@ const Clock = () => {
 
   return (
     <div>
-      <p>{date.toLocaleTimeString()}</p> {/* Display the date correctly */}
+      <h1>{date.toLocaleTimeString()}</h1> {/* Display the date correctly */}
       <button onClick={updateClick}>click update</button>
     </div>
   );
