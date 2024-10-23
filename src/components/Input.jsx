@@ -1,12 +1,22 @@
 import React from "react";
-function Input({ type, placeholder }, ref) {
+import PropTypes from "prop-types";
+
+// ForwardRef component with display name
+const Input = React.forwardRef(({ type, placeholder }, ref) => {
   return (
     <div>
       <input ref={ref} type={type} placeholder={placeholder} />
     </div>
   );
-}
+});
 
-let forwardInput = React.forwardRef(Input);
+// Adding display name to the component for better debugging
+Input.displayName = "Input";
 
-export default forwardInput;
+// Defining prop types to validate props
+Input.propTypes = {
+  type: PropTypes.string.isRequired,
+  placeholder: PropTypes.string.isRequired,
+};
+
+export default Input;
