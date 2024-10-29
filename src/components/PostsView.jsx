@@ -7,7 +7,7 @@ const PostsView = () => {
   const { posts, isLoading, error } = useSelector((state) => state.posts);
   useEffect(() => {
     dispatch(fetchPosts());
-  }, []);
+  }, [ ]);
   return (
     <div>
       <h1>all posts</h1>
